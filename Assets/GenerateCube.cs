@@ -6,8 +6,12 @@ using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
+
 public class GenerateCube : MonoBehaviour
 {
+
+    [SerializeField] private Shader shader;
+
     private void Start()
     {
         // Generate the mesh and assign to the mesh filter.
@@ -19,7 +23,13 @@ public class GenerateCube : MonoBehaviour
         // Recall how we set the material's "color" in the first workshop:
         // e.g. material.color = ...;
         // Turns out we can also set the material's shader in a similar way:
-        material.shader = null;
+        material.shader = shader;
+    }
+
+    private void Update()
+    {
+        var material = GetComponent<Renderer>().material;
+        material.SetColor("_Color", Color.HSVToRGB(Time.time%1,1.0f,1.0f));
     }
 
     private Mesh CreateMesh()
